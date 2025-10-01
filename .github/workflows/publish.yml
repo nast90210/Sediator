@@ -65,8 +65,10 @@ jobs:
       #--- Pack NuGet package ------------------------------------------------
       - name: Pack NuGet package
         run: |
+          VERSION="${{ steps.version.outputs.next_tag }}"
+          VERSION="${VERSION#v}"
           dotnet pack -c Release -o ./artifacts \
-            /p:PackageVersion=${{ steps.version.outputs.next_tag }}
+            /p:PackageVersion=$VERSION
 
       #--- Publish to nuget.org -----------------------------------------------
       - name: Publish package
