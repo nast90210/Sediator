@@ -1,0 +1,51 @@
+# Build results
+bin/
+obj/
+out/
+
+# User-specific files
+*.user
+*.userosscache
+*.suo
+*.userprefs
+
+# VS / Rider / VSCode settings
+.vscode/
+.idea/
+*.sln.docstates
+
+# NuGet packages
+*.nupkg
+*.snupkg
+packages/
+# The packages folder can be ignored if you use PackageReference
+# but keep it if you use packages.config
+
+# Generated files
+*.generated.cs
+*.g.cs
+*.g.i.cs
+*.designer.cs
+
+# Publish folder
+publish/
+*.publishsettings
+
+# ASP.NET Core
+wwwroot/
+appsettings.*.json
+secrets.json
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+
+# OS generated files
+.DS_Store
+Thumbs.db
