@@ -68,7 +68,8 @@ jobs:
           VERSION="${{ steps.version.outputs.next_tag }}"
           VERSION="${VERSION#v}"
           dotnet pack -c Release -o ./artifacts \
-            /p:PackageVersion=$VERSION
+            /p:PackageVersion=$VERSION \
+            /p:IncludeReferencedProjects=true
 
       #--- Publish to nuget.org -----------------------------------------------
       - name: Publish package
