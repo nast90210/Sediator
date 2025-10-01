@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sediator", "src\Sediator\Se
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sediator.Absctractions", "src\Sediator.Absctractions\Sediator.Absctractions.csproj", "{E945A4AA-6A4E-48E3-B3E5-AF3BD2C1BCA9}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{396A9538-BD6C-4874-9226-996405D81635}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sediator.Tests", "tests\Sediator.Tests\Sediator.Tests.csproj", "{4F2A1B07-C8A3-4B62-9688-8C3F3AFA39F7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +27,10 @@ Global
 		{E945A4AA-6A4E-48E3-B3E5-AF3BD2C1BCA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E945A4AA-6A4E-48E3-B3E5-AF3BD2C1BCA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E945A4AA-6A4E-48E3-B3E5-AF3BD2C1BCA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F2A1B07-C8A3-4B62-9688-8C3F3AFA39F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F2A1B07-C8A3-4B62-9688-8C3F3AFA39F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F2A1B07-C8A3-4B62-9688-8C3F3AFA39F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F2A1B07-C8A3-4B62-9688-8C3F3AFA39F7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -30,5 +38,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{646E2CBF-4214-4D12-8146-0ADDBFD826B6} = {BAA65505-8941-48C7-B25B-E718EFF1A507}
 		{E945A4AA-6A4E-48E3-B3E5-AF3BD2C1BCA9} = {BAA65505-8941-48C7-B25B-E718EFF1A507}
+		{4F2A1B07-C8A3-4B62-9688-8C3F3AFA39F7} = {396A9538-BD6C-4874-9226-996405D81635}
 	EndGlobalSection
 EndGlobal
