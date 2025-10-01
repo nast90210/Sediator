@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - master
-  workflow_dispatch :
+  workflow_dispatch:
       
 jobs:
   build-and-publish:
@@ -60,7 +60,7 @@ jobs:
           git tag ${{ steps.version.outputs.next_tag }}
           git push origin ${{ steps.version.outputs.next_tag }}
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       #--- Pack NuGet package ------------------------------------------------
       - name: Pack NuGet package
