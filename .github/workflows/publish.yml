@@ -60,7 +60,7 @@ jobs:
           git tag ${{ steps.version.outputs.next_tag }}
           git push origin ${{ steps.version.outputs.next_tag }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
       #--- Pack NuGet package ------------------------------------------------
       - name: Pack NuGet package
