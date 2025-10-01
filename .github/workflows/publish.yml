@@ -5,6 +5,7 @@ on:
     branches:
       - master
 
+      
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
