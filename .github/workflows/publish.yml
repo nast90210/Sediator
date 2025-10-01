@@ -1,0 +1,78 @@
+name: Build & Publish NuGet
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      #--- Checkout ---------------------------------------------------------
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      #--- Set up .NET -------------------------------------------------------
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
+
+      #--- Restore, build, test ---------------------------------------------
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build -c Release --no-restore
+
+      - name: Run tests
+        run: dotnet test -c Release --no-build --verbosity normal
+
+      #--- Determine next semver tag ----------------------------------------
+      - name: Get next version tag
+        id: version
+        run: |
+          TAGS=$(git tag -l 'v[0-9]*.[0-9]*.[0-9]*')
+          
+          if [ -z "$TAGS" ]; then
+            NEXT="v0.0.1"
+          else
+            LATEST=$(echo "$TAGS" | sort -V | tail -n1)
+            IFS='.' read -r MAJOR MINOR PATCH <<< "${LATEST#v}"
+            PATCH=$((PATCH + 1))
+            NEXT="v${MAJOR}.${MINOR}.${PATCH}"
+          fi
+          
+          echo "next_tag=$NEXT" >> $GITHUB_OUTPUT
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      #--- Create and push the tag -------------------------------------------
+      - name: Create tag
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git tag ${{ steps.version.outputs.next_tag }}
+          git push origin ${{ steps.version.outputs.next_tag }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      #--- Pack NuGet package ------------------------------------------------
+      - name: Pack NuGet package
+        run: |
+          dotnet pack -c Release -o ./artifacts \
+            /p:PackageVersion=${{ steps.version.outputs.next_tag#v }}
+
+      #--- Publish to nuget.org -----------------------------------------------
+      - name: Publish package
+        run: |
+          dotnet nuget push ./artifacts/*.nupkg \
+            --api-key ${{ secrets.NUGET_API_KEY }} \
+            --source https://api.nuget.org/v3/index.json \
+            --skip-duplicate
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
