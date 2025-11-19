@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using Sediator.Abstractions;
 using Sediator.Handlers;
 
 namespace Sediator
