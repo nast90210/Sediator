@@ -1,20 +1,19 @@
-using System;
-using System.Linq;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
+using Sediator.Abstractions;
 
-namespace Sediator.DependencyInjection
+namespace Sediator.DependencyInjection.Microsoft
 {
     public static class SediatorServiceCollectionExtensions
     {
-        public static IServiceCollection AddSediator(
-            this IServiceCollection services)
+        public static IServiceCollection AddSediator(this IServiceCollection services)
         {
             if (services == null)
             {
                 throw new ArgumentNullException(nameof(services));
             }
 
+            services.AddScoped<IHandlerProvider, HandlerProvider>();
             services.AddScoped<IMediator, Sediator>();
 
             return services;
@@ -22,17 +21,12 @@ namespace Sediator.DependencyInjection
 
         public static IServiceCollection AddSediatorHandlers<T>(this IServiceCollection services)
         {
-            if (services == null)
-            {
-                throw new ArgumentNullException(nameof(services));
-            }
-
-            return AddSediatorHandlers(services, typeof(T).Assembly);
+            return services == null ? throw new ArgumentNullException(nameof(services)) : AddSediatorHandlers(services, typeof(T).Assembly);
         }
 
         public static IServiceCollection AddSediatorHandlers(
             this IServiceCollection services,
-            params Assembly[] assemblies)
+            params Assembly[]? assemblies)
         {
             if (services == null)
             {
@@ -41,7 +35,7 @@ namespace Sediator.DependencyInjection
 
             if (assemblies == null || assemblies.Length == 0)
             {
-                assemblies = new[] { Assembly.GetCallingAssembly() };
+                assemblies = [Assembly.GetCallingAssembly()];
             }
 
             foreach (var assembly in assemblies)

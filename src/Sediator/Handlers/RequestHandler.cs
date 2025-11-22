@@ -1,38 +1,38 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Sediator.Abstractions;
 
 namespace Sediator.Handlers
 {
     internal static class RequestHandler
     {
-        private const string _handlerMethodName = "Handle";
-        private const string _resultPropertyName = "Result";
+        private const string HandlerMethodName = "Handle";
+        private const string ResultPropertyName = "Result";
 
-        internal async static Task<TResponse> Process<TResponse>(
+        internal static async Task<TResponse> Process<TResponse>(
             IRequest<TResponse> request,
             Type handlerType,
             object handler,
             CancellationToken token = default)
         {
-            var handleMethod = handlerType.GetMethod(_handlerMethodName);
+            var handleMethod = handlerType.GetMethod(HandlerMethodName);
             var task = (Task<TResponse>)handleMethod!.Invoke(handler, [request, token])!;
             await task.ConfigureAwait(false);
-            var resultProperty = task.GetType().GetProperty(_resultPropertyName);
+            var resultProperty = task.GetType().GetProperty(ResultPropertyName);
             var result = resultProperty!.GetValue(task);
             return (TResponse)result!;
         }
 
-        internal async static Task Process(
+        internal static async Task Process(
             IRequest request,
             Type handlerType,
             object handler,
             CancellationToken token = default)
         {
-            var handleMethod = handlerType.GetMethod(_handlerMethodName);
+            var handleMethod = handlerType.GetMethod(HandlerMethodName);
             var task = (Task)handleMethod!.Invoke(handler, [request, token])!;
             await task.ConfigureAwait(false);
         }
-
     }
 }

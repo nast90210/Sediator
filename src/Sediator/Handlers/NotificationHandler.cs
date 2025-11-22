@@ -1,12 +1,13 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Sediator.Abstractions;
 
 namespace Sediator.Handlers
 {
     internal static class NotificationHandler
     {
-        private const string _handlerMethodName = "Handle";
+        private const string HandlerMethodName = "Handle";
 
         internal static async Task Process(
             INotification notification,
@@ -14,7 +15,7 @@ namespace Sediator.Handlers
             object handler,
             CancellationToken cancellationToken)
         {
-            var handleMethod = handlerType.GetMethod(_handlerMethodName);
+            var handleMethod = handlerType.GetMethod(HandlerMethodName);
             var task = (Task)handleMethod!.Invoke(handler, [notification, cancellationToken])!;
             await task.ConfigureAwait(false);
         }

@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace Sediator
+namespace Sediator.Abstractions
 {
     public delegate Task<TResponse> RequestDelegate<TResponse>();
 }

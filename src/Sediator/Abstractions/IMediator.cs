@@ -1,7 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Sediator
+namespace Sediator.Abstractions
 {
     public interface IMediator
     {
