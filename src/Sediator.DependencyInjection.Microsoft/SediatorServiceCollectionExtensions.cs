@@ -1,10 +1,8 @@
-using System;
-using System.Linq;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Sediator.Abstractions;
 
-namespace Sediator.DependencyInjection
+namespace Sediator.DependencyInjection.Microsoft
 {
     public static class SediatorServiceCollectionExtensions
     {
@@ -15,6 +13,7 @@ namespace Sediator.DependencyInjection
                 throw new ArgumentNullException(nameof(services));
             }
 
+            services.AddScoped<IHandlerProvider, HandlerProvider>();
             services.AddScoped<IMediator, Sediator>();
 
             return services;

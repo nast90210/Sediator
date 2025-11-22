@@ -1,7 +1,6 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
 using Sediator.Abstractions;
 using Sediator.Handlers;
 
@@ -9,9 +8,9 @@ namespace Sediator
 {
     public sealed class Sediator : IMediator
     {
-        private readonly IServiceProvider _provider;
+        private readonly IHandlerProvider _provider;
 
-        public Sediator(IServiceProvider provider)
+        public Sediator(IHandlerProvider provider)
         {
             _provider = provider ?? throw new ArgumentNullException(nameof(provider));
         }
@@ -19,21 +18,21 @@ namespace Sediator
         public Task<TResponse> Send<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default)
         {
             var handlerType = typeof(IRequestHandler<,>).MakeGenericType(request.GetType(), typeof(TResponse));
-            var handler = _provider.GetRequiredService(handlerType);
+            var handler = _provider.GetHandler(handlerType);
             return RequestHandler.Process(request, handlerType, handler, cancellationToken);
         }
 
         public Task Send(IRequest request, CancellationToken cancellationToken = default)
         {
             var handlerType = typeof(IRequestHandler<>).MakeGenericType(request.GetType());
-            var handler = _provider.GetRequiredService(handlerType);
+            var handler = _provider.GetHandler(handlerType);
             return RequestHandler.Process(request, handlerType, handler, cancellationToken);
         }
 
         public Task Publish(INotification notification, CancellationToken cancellationToken = default)
         {
             var handlerType = typeof(INotificationHandler<>).MakeGenericType(notification.GetType());
-            var handler = _provider.GetRequiredService(handlerType);
+            var handler = _provider.GetHandler(handlerType);
             return NotificationHandler.Process(notification, handlerType, handler, cancellationToken);
         }
     }
